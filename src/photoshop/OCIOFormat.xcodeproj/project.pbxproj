@@ -1,0 +1,306 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
+		D4589B4812D8354100383EF1 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4589B4712D8354100383EF1 /* Carbon.framework */; };
+		D4589B4C12D8354B00383EF1 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C167FFE841241C02AAC07 /* AppKit.framework */; };
+		D4589B6912D8363900383EF1 /* OCIOFormat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D4589B6312D8363900383EF1 /* OCIOFormat.cpp */; };
+		D4F10B9B12D854F4003DA109 /* OCIOFormat.r in Rez */ = {isa = PBXBuildFile; fileRef = D4589B6512D8363900383EF1 /* OCIOFormat.r */; };
+		D4F10B9E12D854FA003DA109 /* OIIOFormatUI.r in Rez */ = {isa = PBXBuildFile; fileRef = D4589B6712D8363900383EF1 /* OIIOFormatUI.r */; };
+		D4F10BA912D8554E003DA109 /* DialogUtilitiesMac.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D4F10BA712D8554E003DA109 /* DialogUtilitiesMac.cpp */; };
+		D4F10BB212D8557B003DA109 /* PIUSuites.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D4F10BB112D8557B003DA109 /* PIUSuites.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		8D5B49B6048680CD000E48DA /* OCIOFormat.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OCIOFormat.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		D4589B4712D8354100383EF1 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
+		D4589B6312D8363900383EF1 /* OCIOFormat.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OCIOFormat.cpp; sourceTree = "<group>"; };
+		D4589B6512D8363900383EF1 /* OCIOFormat.r */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.rez; path = OCIOFormat.r; sourceTree = "<group>"; };
+		D4589B6712D8363900383EF1 /* OIIOFormatUI.r */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.rez; path = OIIOFormatUI.r; sourceTree = "<group>"; };
+		D4F10BA112D8551C003DA109 /* PIUSuites.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PIUSuites.h; sourceTree = "<group>"; };
+		D4F10BA612D8554E003DA109 /* DialogUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DialogUtilities.h; sourceTree = "<group>"; };
+		D4F10BA712D8554E003DA109 /* DialogUtilitiesMac.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DialogUtilitiesMac.cpp; sourceTree = "<group>"; };
+		D4F10BA812D8554E003DA109 /* DialogUtilitiesWin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DialogUtilitiesWin.cpp; sourceTree = "<group>"; };
+		D4F10BB112D8557B003DA109 /* PIUSuites.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PIUSuites.cpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D5B49B3048680CD000E48DA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
+				D4589B4812D8354100383EF1 /* Carbon.framework in Frameworks */,
+				D4589B4C12D8354B00383EF1 /* AppKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		089C166AFE841209C02AAC07 /* OCIOFormat */ = {
+			isa = PBXGroup;
+			children = (
+				D4589B6212D8363900383EF1 /* src */,
+				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
+				19C28FB8FE9D52D311CA2CBB /* Products */,
+			);
+			name = OCIOFormat;
+			sourceTree = "<group>";
+		};
+		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */,
+				1058C7AEFEA557BF11CA2CBB /* Other Frameworks */,
+				D4589B4712D8354100383EF1 /* Carbon.framework */,
+			);
+			name = "Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7AEFEA557BF11CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				089C167FFE841241C02AAC07 /* AppKit.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FB8FE9D52D311CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D5B49B6048680CD000E48DA /* OCIOFormat.plugin */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D4589B6212D8363900383EF1 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				D4589B6312D8363900383EF1 /* OCIOFormat.cpp */,
+				D4589B6512D8363900383EF1 /* OCIOFormat.r */,
+				D4F10B7412D852AE003DA109 /* common */,
+				D4589B6612D8363900383EF1 /* osx */,
+				D4589B6812D8363900383EF1 /* win */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		D4589B6612D8363900383EF1 /* osx */ = {
+			isa = PBXGroup;
+			children = (
+				D4589B6712D8363900383EF1 /* OIIOFormatUI.r */,
+			);
+			path = osx;
+			sourceTree = "<group>";
+		};
+		D4589B6812D8363900383EF1 /* win */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = win;
+			sourceTree = "<group>";
+		};
+		D4F10B7412D852AE003DA109 /* common */ = {
+			isa = PBXGroup;
+			children = (
+				D4F10BA612D8554E003DA109 /* DialogUtilities.h */,
+				D4F10BA712D8554E003DA109 /* DialogUtilitiesMac.cpp */,
+				D4F10BA812D8554E003DA109 /* DialogUtilitiesWin.cpp */,
+				D4F10BA112D8551C003DA109 /* PIUSuites.h */,
+				D4F10BB112D8557B003DA109 /* PIUSuites.cpp */,
+			);
+			path = common;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8D5B49AC048680CD000E48DA /* OCIOFormat */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "OCIOFormat" */;
+			buildPhases = (
+				8D5B49B1048680CD000E48DA /* Sources */,
+				8D5B49B3048680CD000E48DA /* Frameworks */,
+				D4F10B9812D854E1003DA109 /* Rez */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OCIOFormat;
+			productInstallPath = "$(HOME)/Library/Bundles";
+			productName = OCIOFormat;
+			productReference = 8D5B49B6048680CD000E48DA /* OCIOFormat.plugin */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		089C1669FE841209C02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "OCIOFormat" */;
+			compatibilityVersion = "Xcode 3.1";
+			hasScannedForEncodings = 1;
+			mainGroup = 089C166AFE841209C02AAC07 /* OCIOFormat */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D5B49AC048680CD000E48DA /* OCIOFormat */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXRezBuildPhase section */
+		D4F10B9812D854E1003DA109 /* Rez */ = {
+			isa = PBXRezBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D4F10B9B12D854F4003DA109 /* OCIOFormat.r in Rez */,
+				D4F10B9E12D854FA003DA109 /* OIIOFormatUI.r in Rez */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXRezBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D5B49B1048680CD000E48DA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D4589B6912D8363900383EF1 /* OCIOFormat.cpp in Sources */,
+				D4F10BA912D8554E003DA109 /* DialogUtilitiesMac.cpp in Sources */,
+				D4F10BB212D8557B003DA109 /* PIUSuites.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1DEB913B08733D840010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_VERSION = 4.2;
+				GENERATE_PKGINFO_FILE = YES;
+				HEADER_SEARCH_PATHS = (
+					"${OPENCOLORIO_SDK_ROOT}/include",
+					"${OPENIMAGEIO_SDK_ROOT}/include",
+					"/Developer/Headers/FlatCarbon/**",
+					"${PHOTOSHOP_SDK_ROOT}/**",
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/src/osx/Info.plist";
+				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				LIBRARY_SEARCH_PATHS = (
+					"${OPENCOLORIO_SDK_ROOT}/lib",
+					"${OPENIMAGEIO_SDK_ROOT}/lib",
+				);
+				LINK_WITH_STANDARD_LIBRARIES = YES;
+				OTHER_LDFLAGS = (
+					"-lOpenColorIO",
+					"-lOpenImageIO",
+				);
+				PLUGIN_TYPE = 8BIF;
+				PRODUCT_NAME = OCIOFormat;
+				REZ_PREFIX_FILE = "${PHOTOSHOP_SDK_ROOT}/samplecode/common/includes/MachOMacrezXcode.h";
+				SDKROOT = macosx10.5;
+				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = dynamic;
+				VALID_ARCHS = x86_64;
+				WRAPPER_EXTENSION = plugin;
+				ZERO_LINK = NO;
+			};
+			name = Debug;
+		};
+		1DEB913C08733D840010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = OCIOFormat_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				PRODUCT_NAME = OCIOFormat;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
+		1DEB913F08733D840010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				OCIO_PROFILE = "${OPENCOLORIO_SDK_ROOT}/share/OpenColorIO/configs/spi-vfx/config.ocio";
+				ONLY_ACTIVE_ARCH = YES;
+				OPENCOLORIO_SDK_ROOT = /Users/malcolm/Sites/opensource/OpenColorIO_HEAD/dist;
+				OPENIMAGEIO_SDK_ROOT = /Users/malcolm/Sites/opensource/OpenImageIO_trunk/dist;
+				PHOTOSHOP_SDK_ROOT = /Users/malcolm/Sites/opensource/OpenColorIO_photoshop/src/photoshop/ext/adobe_photoshop_cs5_sdk_mac;
+				PREBINDING = NO;
+				SDKROOT = macosx10.6;
+			};
+			name = Debug;
+		};
+		1DEB914008733D840010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx10.6;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "OCIOFormat" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB913B08733D840010E9CD /* Debug */,
+				1DEB913C08733D840010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "OCIOFormat" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB913F08733D840010E9CD /* Debug */,
+				1DEB914008733D840010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 089C1669FE841209C02AAC07 /* Project object */;
+}
