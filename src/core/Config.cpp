@@ -649,22 +649,28 @@ OCIO_NAMESPACE_ENTER
         return static_cast<int>(getImpl()->roles_.size());
     }
     
-    const char * Config::getRoleNameByIndex(int index) const
+    const char * Config::getRoleName(int index) const
     {
-        if(index<0 || index >= (int)getImpl()->roles_.size())
-        {
-            return "";
-        }
-        
+        if(index < 0 || index >= (int)getImpl()->roles_.size()) return NULL;
         RoleMap::const_iterator iter = getImpl()->roles_.begin();
-        for(int i=0; i<index; ++i)
-        {
-            ++iter;
-        }
-        
+        for(int i = 0; i < index; ++i) ++iter;
+        return iter->first.c_str();
+    }
+    
+    const char * Config::getRoleColorSpaceName(int index) const
+    {
+        if(index < 0 || index >= (int)getImpl()->roles_.size()) return NULL;
+        RoleMap::const_iterator iter = getImpl()->roles_.begin();
+        for(int i = 0; i < index; ++i) ++iter;
         return iter->second.c_str();
     }
     
+    const char * Config::getRoleColorSpaceName(const char * role) const
+    {
+        std::string _role = LookupRole(getImpl()->roles_, role);
+        if(_role == "") return NULL;
+        return _role.c_str();
+    }
     
     // Display Transforms
     
@@ -1288,6 +1294,51 @@ BOOST_AUTO_TEST_CASE ( test_simpleConfig )
     is.str(SIMPLE_PROFILE);
     OCIO::ConstConfigRcPtr config;
     BOOST_CHECK_NO_THROW(config = OCIO::Config::CreateFromStream(is));
+}
+
+BOOST_AUTO_TEST_CASE ( test_roleAccess )
+{
+    
+    std::string SIMPLE_PROFILE =
+    "ocio_profile_version: 1\n"
+    "strictparsing: false\n"
+    "roles:\n"
+    "  compositing_log: lgh\n"
+    "  default: raw\n"
+    "  scene_linear: lnh\n"
+    "colorspaces:\n"
+    "  - !<ColorSpace>\n"
+    "      name: raw\n"
+    "  - !<ColorSpace>\n"
+    "      name: lnh\n"
+    "  - !<ColorSpace>\n"
+    "      name: lgh\n"
+    "\n";
+    
+    std::istringstream is;
+    is.str(SIMPLE_PROFILE);
+    OCIO::ConstConfigRcPtr config;
+    BOOST_CHECK_NO_THROW(config = OCIO::Config::CreateFromStream(is));
+    
+    BOOST_CHECK_EQUAL(config->getNumRoles(), 3);
+    
+    BOOST_CHECK_EQUAL(config->getRoleName(2), "scene_linear");
+    BOOST_CHECK_EQUAL(config->getRoleName(0), "compositing_log");
+    BOOST_CHECK_EQUAL(config->getRoleName(1), "default");
+    BOOST_CHECK(config->getRoleName(10) == NULL);
+    BOOST_CHECK(config->getRoleName(-4) == NULL);
+    
+    BOOST_CHECK_EQUAL(config->getRoleColorSpaceName(2), "lnh");
+    BOOST_CHECK_EQUAL(config->getRoleColorSpaceName(0), "lgh");
+    BOOST_CHECK_EQUAL(config->getRoleColorSpaceName(1), "raw");
+    BOOST_CHECK(config->getRoleColorSpaceName(8) == NULL);
+    BOOST_CHECK(config->getRoleColorSpaceName(-2) == NULL);
+    
+    BOOST_CHECK_EQUAL(config->getRoleColorSpaceName("scene_linear"), "lnh");
+    BOOST_CHECK_EQUAL(config->getRoleColorSpaceName("compositing_log"), "lgh");
+    BOOST_CHECK_EQUAL(config->getRoleColorSpaceName("default"), "raw");
+    BOOST_CHECK(config->getRoleColorSpaceName("cheese") == NULL);
+    
 }
 
 BOOST_AUTO_TEST_CASE ( test_ser )
