@@ -8,12 +8,19 @@
 
 /* Begin PBXBuildFile section */
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
+		D423316F12DBEC1B0000D0BB /* OCIOImportUI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D423316E12DBEC1B0000D0BB /* OCIOImportUI.cpp */; };
+		D450DB5812DDB54900C459BC /* QtCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D450DB5712DDB54900C459BC /* QtCore.framework */; };
+		D450DB5C12DDB55600C459BC /* QtGui.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D450DB5B12DDB55600C459BC /* QtGui.framework */; };
+		D450DB9C12DDC34300C459BC /* moc_OCIOImportDialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D450DB9B12DDC34300C459BC /* moc_OCIOImportDialog.cpp */; };
+		D450DC9512DDE73000C459BC /* QtOpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D450DC9412DDE73000C459BC /* QtOpenGL.framework */; };
+		D450DCC312DDEABC00C459BC /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D450DCC212DDEABC00C459BC /* OpenGL.framework */; };
 		D4589B4812D8354100383EF1 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4589B4712D8354100383EF1 /* Carbon.framework */; };
 		D4589B4C12D8354B00383EF1 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C167FFE841241C02AAC07 /* AppKit.framework */; };
 		D4589B6912D8363900383EF1 /* OCIOFormat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D4589B6312D8363900383EF1 /* OCIOFormat.cpp */; };
+		D4C329C012DE84F4008DD62B /* OCIOImportDialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D4C329BF12DE84F4008DD62B /* OCIOImportDialog.cpp */; };
+		D4C32A0512DE8768008DD62B /* OCIOGLPreview.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D450DC7812DDE59600C459BC /* OCIOGLPreview.cpp */; };
 		D4F10B9B12D854F4003DA109 /* OCIOFormat.r in Rez */ = {isa = PBXBuildFile; fileRef = D4589B6512D8363900383EF1 /* OCIOFormat.r */; };
 		D4F10B9E12D854FA003DA109 /* OIIOFormatUI.r in Rez */ = {isa = PBXBuildFile; fileRef = D4589B6712D8363900383EF1 /* OIIOFormatUI.r */; };
-		D4F10BA912D8554E003DA109 /* DialogUtilitiesMac.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D4F10BA712D8554E003DA109 /* DialogUtilitiesMac.cpp */; };
 		D4F10BB212D8557B003DA109 /* PIUSuites.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D4F10BB112D8557B003DA109 /* PIUSuites.cpp */; };
 /* End PBXBuildFile section */
 
@@ -21,14 +28,24 @@
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		8D5B49B6048680CD000E48DA /* OCIOFormat.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OCIOFormat.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		D423316E12DBEC1B0000D0BB /* OCIOImportUI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OCIOImportUI.cpp; sourceTree = "<group>"; };
+		D423317012DBEF6C0000D0BB /* OCIOFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCIOFormat.h; sourceTree = "<group>"; };
+		D450DA5912DD783100C459BC /* OCIOImportDialog.ui */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = OCIOImportDialog.ui; sourceTree = "<group>"; };
+		D450DB5712DDB54900C459BC /* QtCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtCore.framework; path = Library/Frameworks/QtCore.framework; sourceTree = SDKROOT; };
+		D450DB5B12DDB55600C459BC /* QtGui.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtGui.framework; path = Library/Frameworks/QtGui.framework; sourceTree = SDKROOT; };
+		D450DB8C12DDC1FB00C459BC /* OCIOImportDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCIOImportDialog.h; sourceTree = "<group>"; };
+		D450DB9B12DDC34300C459BC /* moc_OCIOImportDialog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = moc_OCIOImportDialog.cpp; path = build/OCIOFormat.build/Debug/OCIOFormat.build/DerivedSources/moc_OCIOImportDialog.cpp; sourceTree = SOURCE_ROOT; };
+		D450DC7712DDE59600C459BC /* OCIOGLPreview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCIOGLPreview.h; sourceTree = "<group>"; };
+		D450DC7812DDE59600C459BC /* OCIOGLPreview.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OCIOGLPreview.cpp; sourceTree = "<group>"; };
+		D450DC9412DDE73000C459BC /* QtOpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QtOpenGL.framework; path = Library/Frameworks/QtOpenGL.framework; sourceTree = SDKROOT; };
+		D450DCC212DDEABC00C459BC /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		D4589B4712D8354100383EF1 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
 		D4589B6312D8363900383EF1 /* OCIOFormat.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OCIOFormat.cpp; sourceTree = "<group>"; };
 		D4589B6512D8363900383EF1 /* OCIOFormat.r */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.rez; path = OCIOFormat.r; sourceTree = "<group>"; };
 		D4589B6712D8363900383EF1 /* OIIOFormatUI.r */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.rez; path = OIIOFormatUI.r; sourceTree = "<group>"; };
+		D48F8ABA12DE6EE800479C8F /* ui_OCIOImportDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ui_OCIOImportDialog.h; path = build/OCIOFormat.build/Debug/OCIOFormat.build/DerivedSources/ui_OCIOImportDialog.h; sourceTree = SOURCE_ROOT; };
+		D4C329BF12DE84F4008DD62B /* OCIOImportDialog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OCIOImportDialog.cpp; sourceTree = "<group>"; };
 		D4F10BA112D8551C003DA109 /* PIUSuites.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PIUSuites.h; sourceTree = "<group>"; };
-		D4F10BA612D8554E003DA109 /* DialogUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DialogUtilities.h; sourceTree = "<group>"; };
-		D4F10BA712D8554E003DA109 /* DialogUtilitiesMac.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DialogUtilitiesMac.cpp; sourceTree = "<group>"; };
-		D4F10BA812D8554E003DA109 /* DialogUtilitiesWin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DialogUtilitiesWin.cpp; sourceTree = "<group>"; };
 		D4F10BB112D8557B003DA109 /* PIUSuites.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PIUSuites.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -40,6 +57,10 @@
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
 				D4589B4812D8354100383EF1 /* Carbon.framework in Frameworks */,
 				D4589B4C12D8354B00383EF1 /* AppKit.framework in Frameworks */,
+				D450DB5812DDB54900C459BC /* QtCore.framework in Frameworks */,
+				D450DB5C12DDB55600C459BC /* QtGui.framework in Frameworks */,
+				D450DC9512DDE73000C459BC /* QtOpenGL.framework in Frameworks */,
+				D450DCC312DDEABC00C459BC /* OpenGL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -62,6 +83,10 @@
 				1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */,
 				1058C7AEFEA557BF11CA2CBB /* Other Frameworks */,
 				D4589B4712D8354100383EF1 /* Carbon.framework */,
+				D450DB5712DDB54900C459BC /* QtCore.framework */,
+				D450DB5B12DDB55600C459BC /* QtGui.framework */,
+				D450DC9412DDE73000C459BC /* QtOpenGL.framework */,
+				D450DCC212DDEABC00C459BC /* OpenGL.framework */,
 			);
 			name = "Frameworks and Libraries";
 			sourceTree = "<group>";
@@ -90,11 +115,27 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		D423338012DD43890000D0BB /* qt */ = {
+			isa = PBXGroup;
+			children = (
+				D48F8ABB12DE6F0000479C8F /* preprocess */,
+				D450DA5912DD783100C459BC /* OCIOImportDialog.ui */,
+				D450DB8C12DDC1FB00C459BC /* OCIOImportDialog.h */,
+				D4C329BF12DE84F4008DD62B /* OCIOImportDialog.cpp */,
+				D450DC7712DDE59600C459BC /* OCIOGLPreview.h */,
+				D450DC7812DDE59600C459BC /* OCIOGLPreview.cpp */,
+			);
+			path = qt;
+			sourceTree = "<group>";
+		};
 		D4589B6212D8363900383EF1 /* src */ = {
 			isa = PBXGroup;
 			children = (
 				D4589B6312D8363900383EF1 /* OCIOFormat.cpp */,
+				D423317012DBEF6C0000D0BB /* OCIOFormat.h */,
 				D4589B6512D8363900383EF1 /* OCIOFormat.r */,
+				D423316E12DBEC1B0000D0BB /* OCIOImportUI.cpp */,
+				D423338012DD43890000D0BB /* qt */,
 				D4F10B7412D852AE003DA109 /* common */,
 				D4589B6612D8363900383EF1 /* osx */,
 				D4589B6812D8363900383EF1 /* win */,
@@ -117,12 +158,18 @@
 			path = win;
 			sourceTree = "<group>";
 		};
+		D48F8ABB12DE6F0000479C8F /* preprocess */ = {
+			isa = PBXGroup;
+			children = (
+				D48F8ABA12DE6EE800479C8F /* ui_OCIOImportDialog.h */,
+				D450DB9B12DDC34300C459BC /* moc_OCIOImportDialog.cpp */,
+			);
+			name = preprocess;
+			sourceTree = "<group>";
+		};
 		D4F10B7412D852AE003DA109 /* common */ = {
 			isa = PBXGroup;
 			children = (
-				D4F10BA612D8554E003DA109 /* DialogUtilities.h */,
-				D4F10BA712D8554E003DA109 /* DialogUtilitiesMac.cpp */,
-				D4F10BA812D8554E003DA109 /* DialogUtilitiesWin.cpp */,
 				D4F10BA112D8551C003DA109 /* PIUSuites.h */,
 				D4F10BB112D8557B003DA109 /* PIUSuites.cpp */,
 			);
@@ -136,6 +183,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "OCIOFormat" */;
 			buildPhases = (
+				D42333C312DD743F0000D0BB /* Qt Ui */,
+				D4C329DE12DE85E2008DD62B /* Qt Moc */,
 				8D5B49B1048680CD000E48DA /* Sources */,
 				8D5B49B3048680CD000E48DA /* Frameworks */,
 				D4F10B9812D854E1003DA109 /* Rez */,
@@ -179,14 +228,53 @@
 		};
 /* End PBXRezBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		D42333C312DD743F0000D0BB /* Qt Ui */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/src/qt/OCIOImportDialog.ui",
+			);
+			name = "Qt Ui";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/ui_OCIOImportDialog.h",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "uic -o $DERIVED_FILE_DIR/ui_OCIOImportDialog.h $SRCROOT/src/qt/OCIOImportDialog.ui;\n";
+			showEnvVarsInLog = 0;
+		};
+		D4C329DE12DE85E2008DD62B /* Qt Moc */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				$SRCROOT/src/qt/OCIOImportDialog.h,
+			);
+			name = "Qt Moc";
+			outputPaths = (
+				$DERIVED_FILE_DIR/moc_OCIOImportDialog.cpp,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "moc -o $DERIVED_FILE_DIR/moc_OCIOImportDialog.cpp $SRCROOT/src/qt/OCIOImportDialog.h;";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		8D5B49B1048680CD000E48DA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				D4589B6912D8363900383EF1 /* OCIOFormat.cpp in Sources */,
-				D4F10BA912D8554E003DA109 /* DialogUtilitiesMac.cpp in Sources */,
 				D4F10BB212D8557B003DA109 /* PIUSuites.cpp in Sources */,
+				D423316F12DBEC1B0000D0BB /* OCIOImportUI.cpp in Sources */,
+				D450DB9C12DDC34300C459BC /* moc_OCIOImportDialog.cpp in Sources */,
+				D4C329C012DE84F4008DD62B /* OCIOImportDialog.cpp in Sources */,
+				D4C32A0512DE8768008DD62B /* OCIOGLPreview.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -199,6 +287,10 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SDKROOT)/usr/local/lib\"",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
@@ -219,6 +311,11 @@
 					"${OPENIMAGEIO_SDK_ROOT}/lib",
 				);
 				LINK_WITH_STANDARD_LIBRARIES = YES;
+				OTHER_CFLAGS = (
+					"-DQT_GUI_LIB",
+					"-DQT_CORE_LIB",
+					"-DQT_SHARED",
+				);
 				OTHER_LDFLAGS = (
 					"-lOpenColorIO",
 					"-lOpenImageIO",
@@ -239,6 +336,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SDKROOT)/usr/local/lib\"",
+				);
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = OCIOFormat_Prefix.pch;
@@ -259,7 +360,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				OCIO_PROFILE = "${OPENCOLORIO_SDK_ROOT}/share/OpenColorIO/configs/spi-vfx/config.ocio";
 				ONLY_ACTIVE_ARCH = YES;
-				OPENCOLORIO_SDK_ROOT = /Users/malcolm/Sites/opensource/OpenColorIO_HEAD/dist;
+				OPENCOLORIO_SDK_ROOT = /Users/malcolm/Sites/opensource/OpenColorIO/dist;
 				OPENIMAGEIO_SDK_ROOT = /Users/malcolm/Sites/opensource/OpenImageIO_trunk/dist;
 				PHOTOSHOP_SDK_ROOT = /Users/malcolm/Sites/opensource/OpenColorIO_photoshop/src/photoshop/ext/adobe_photoshop_cs5_sdk_mac;
 				PREBINDING = NO;

@@ -86,8 +86,10 @@ resource 'PiPL' (ResourceID, plugInName " PiPL", purgeable)
         
         FormatMaxChannels { { 1, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24 } },
         
-        // Layer Support still needs some work, it just doesn't work as
+        //
+        // Note: Layer Support still needs some work, it just doesn't work as
         // advertised for 16Bits
+        //
         //FormatLayerSupport { doesSupportFormatLayers },
         
         //FmtFileType { 'OIIO', '8BIM' },

@@ -3,8 +3,6 @@
 #include <iterator>
 
 // Photoshop SDK
-#include <PIDefines.h>
-#include <PIFormat.h>
 #include <PIUI.h>
 #include <PIGetPathSuite.h>
 #include <SPPlugs.h>
@@ -17,31 +15,12 @@
 // PITypes.h defines this which clashes with huge() in fmath
 #undef huge
 
-#include <OpenImageIO/imageio.h>
-namespace OIIO = OIIO_NAMESPACE;
-
 #include <OpenColorIO/OpenColorIO.h>
 namespace OCIO = OCIO_NAMESPACE;
 
+#include "OCIOFormat.h"
+
 #define FILEPATH_LEN_MAX 500
-
-// Plugin Main Entry Point
-DLLExport MACPASCAL void PluginMain(const int16 selector,
-                                    FormatRecordPtr formatParamBlock,
-                                    intptr_t* data, int16* result);
-
-typedef struct Data
-{
-    OIIO::ImageInput *input;
-    int subimage;
-    int mipmap;
-} Data;
-
-extern FormatRecord* gFormatRecord;
-extern SPPluginRef gPluginRef;
-extern int16* gResult;
-extern intptr_t* gDataHandle;
-extern Data* gData;
 
 ///////////////////////////////////////////////////////////////////////////////
 // Globals
@@ -57,6 +36,24 @@ SPBasicSuite* sSPBasic = NULL;
 ///////////////////////////////////////////////////////////////////////////////
 //
 //
+
+std::string RoleTypeStr(RoleType rtype)
+{
+    std::string stype("unknown");
+    if(rtype == kRole_display)
+        stype = "display";
+    else if(rtype == kRole_scene_linear)
+        stype = OCIO::ROLE_SCENE_LINEAR;
+    else if(rtype == kRole_compositing_log)
+        stype = OCIO::ROLE_COMPOSITING_LOG;
+    else if(rtype == kRole_data)
+        stype = OCIO::ROLE_DATA;
+    else if(rtype == kRole_matte_paint)
+        stype = OCIO::ROLE_MATTE_PAINT;
+    else if(rtype == kRole_texture_paint)
+        stype = OCIO::ROLE_TEXTURE_PAINT;
+    return stype;
+}
 
 // print a std::vector to std::out
 template<class T>
@@ -143,8 +140,8 @@ bool PSProgressCallback(void *opaque_data, float portion_done)
 //
 //
 
-//!:c:function:: Create a handle to our Data structure. Photoshop will take
-// ownership of this handle and delete it when necessary.
+// Create a handle to our Data structure. Photoshop will take ownership of this
+// handle and delete it when necessary.
 static void CreateDataHandle()
 {
     Handle h = sPSHandle->New(sizeof(Data));
@@ -152,16 +149,16 @@ static void CreateDataHandle()
     else *gResult = memFullErr;
 }
 
-//!:c:function:: Initalize any global values here.   Called only once when
-// global space is reserved for the first time.
+// Initalize any global values here. Called only once when global space is
+// reserved for the first time.
 static void InitData(void)
 {
     gData->subimage = 0;
     gData->mipmap = 0;
 }
 
-//!:c:function:: Lock the handles and get the pointers for gData and gParams
-// Set the global error, *gResult, if there is trouble
+// Lock the handles and get the pointers for gData and gParams. Set the global
+// error, *gResult, if there is trouble
 static void LockHandles(void)
 {
     if (!(*gDataHandle))
@@ -178,7 +175,7 @@ static void LockHandles(void)
     }
 }
 
-//!:c:function:: Unlock the handles used by the data and params pointers
+// Unlock the handles used by the data and params pointers
 static void UnlockHandles(void)
 {
     if (*gDataHandle)
@@ -186,7 +183,7 @@ static void UnlockHandles(void)
                            reinterpret_cast<Ptr *>(&gData), FALSE);
 }
 
-//!:c:function:: empty on OSX
+// empty on OSX
 void DoAbout(SPPluginRef plugin, int dialogID)
 {
 #ifdef __DEBUG
@@ -235,7 +232,7 @@ static void DoReadStart(void)
         return;
     }
     
-    //spec = new ImageSpec;
+    // Open the file and fill out the spec
     OIIO::ImageSpec spec;
     if (!gData->input->open(filepath, spec))
     {
@@ -255,14 +252,6 @@ static void DoReadStart(void)
     imageSize.h = spec.width;
     SetFormatImageSize(imageSize);
     
-    // The resolution of the image in bits per pixel per plane. The plug-in
-    // should set this field in the formatSelectorReadStart handler.
-    // Valid settings are 1, 8, 16, and 32.
-    //
-    // TODO: this need to be smarter on choosing depth based on the file being
-    // selected, for now we force this to 16bit till we have this in place.
-    gFormatRecord->depth = 16;
-    
     // The number of channels in the image. The plug-in should set this field
     // in the formatSelectorReadStart handler.
     gFormatRecord->planes = spec.nchannels;
@@ -275,6 +264,104 @@ static void DoReadStart(void)
     // handler.
     gFormatRecord->imageMode = plugInModeRGBColor;
     if(spec.nchannels == 1) gFormatRecord->imageMode = plugInModeGrayScale;
+    
+    //////////////////////
+    
+    gData->input->seek_subimage(gData->subimage, gData->mipmap, spec);
+    
+    // Read into the oiio buffer
+    gData->oiiodata = new float [spec.width * spec.height * spec.nchannels];
+    gData->input->read_image(OIIO::TypeDesc::FLOAT, gData->oiiodata,
+                             OIIO::AutoStride, OIIO::AutoStride, OIIO::AutoStride,
+                             &PSProgressCallback);
+    
+    // Get the BitsPerSample
+    int BitsPerSample = gData->input->spec().get_int_attribute("BitsPerSample", -1);
+    
+    //
+    OCIO::ConstConfigRcPtr config = OCIO::GetCurrentConfig();
+    OCIO::ConstProcessorRcPtr processor;
+    
+    //
+    RoleType intputRole(kRole_unknown);
+    if(gData->input->spec().format == OIIO::TypeDesc::HALF ||
+       gData->input->spec().format == OIIO::TypeDesc::FLOAT)
+        intputRole = kRole_scene_linear;
+    else if(BitsPerSample == 10)
+        intputRole = kRole_compositing_log;
+    else
+        intputRole = kRole_data;
+    
+    //
+    RoleType outputRole(kRole_unknown);
+    if(config->getRoleColorSpaceName(OCIO::ROLE_MATTE_PAINT) != NULL)
+        outputRole = kRole_matte_paint;
+    else if(config->getRoleColorSpaceName(OCIO::ROLE_TEXTURE_PAINT) != NULL)
+        outputRole = kRole_texture_paint;
+    else if(config->getRoleColorSpaceName(OCIO::ROLE_COMPOSITING_LOG) != NULL)
+        outputRole = kRole_compositing_log;
+    
+    //
+    OIIO::ImageSpec* spec_ptr = &spec;
+    *gResult = DoImportOptions(spec_ptr, gData->oiiodata, &intputRole, &outputRole);
+    if(*gResult != noErr) return;
+    
+    //
+    std::string intput_role;
+    if(intputRole == kRole_scene_linear)
+        intput_role = OCIO::ROLE_SCENE_LINEAR;
+    else if(intputRole == kRole_compositing_log)
+        intput_role = OCIO::ROLE_COMPOSITING_LOG;
+    else if(intputRole == kRole_data)
+        intput_role = OCIO::ROLE_DATA;
+    else if(intputRole == kRole_matte_paint)
+        intput_role = OCIO::ROLE_MATTE_PAINT;
+    else if(intputRole == kRole_texture_paint)
+        intput_role = OCIO::ROLE_TEXTURE_PAINT;
+    
+    //
+    std::string output_role;
+    if(outputRole == kRole_scene_linear)
+        output_role = OCIO::ROLE_SCENE_LINEAR;
+    else if(outputRole == kRole_compositing_log)
+        output_role = OCIO::ROLE_COMPOSITING_LOG;
+    else if(outputRole == kRole_data)
+        output_role = OCIO::ROLE_DATA;
+    else if(outputRole == kRole_matte_paint)
+        output_role = OCIO::ROLE_MATTE_PAINT;
+    else if(outputRole == kRole_texture_paint)
+        output_role = OCIO::ROLE_TEXTURE_PAINT;
+    
+    //
+    if(outputRole == kRole_display)
+    {
+        OCIO::DisplayTransformRcPtr trans = OCIO::DisplayTransform::Create();
+        
+        trans->setInputColorSpaceName(intput_role.c_str());
+        
+        const char * device = config->getDefaultDisplayDeviceName();
+        const char * transformName = config->getDefaultDisplayTransformName(device);
+        const char * displayColorSpace = config->getDisplayColorSpaceName(device, transformName);
+        trans->setDisplayColorSpaceName(displayColorSpace);
+        
+        processor = config->getProcessor(trans);
+    }
+    else
+    {
+        processor = config->getProcessor(intput_role.c_str(), output_role.c_str());
+    }
+    
+    OCIO::PackedImageDesc img(gData->oiiodata, spec.width, spec.height,
+                              gFormatRecord->planes);
+    processor->apply(img);
+    
+    // The resolution of the image in bits per pixel per plane. The plug-in
+    // should set this field in the formatSelectorReadStart handler.
+    // Valid settings are 1, 8, 16, and 32.
+    //
+    // TODO: this need to be smarter on choosing depth based on the file being
+    // selected, for now we force this to 16bit till we have this in place.
+    gFormatRecord->depth = 16;
     
     *gResult = noErr;
     return;
@@ -293,29 +380,23 @@ static void DoReadLayerStart(void)
 }
 */
 
+static bool hasRole(OCIO::ConstConfigRcPtr config, const char * role)
+{
+    if(role == NULL) return false;
+    for(int i = 0; i < config->getNumRoles(); i++)
+        if(config->getRoleName(i) == role) return true;
+    return false;
+}
+
 static void DoReadContinue(void)
 {
 #ifdef __DEBUG
     std::cout << "OIIOFormatPlugin: DoReadContinue() called" << std::endl;
 #endif
     
+    // TODO: make this cleaner
     OIIO::ImageSpec spec;
     gData->input->seek_subimage(gData->subimage, gData->mipmap, spec);
-    
-    // DEBUG //
-#ifdef __DEBUG
-    std::cout << "OIIOFormatPlugin: layer / subimage: " << gFormatRecord->layerData << " " << gData->subimage << "\n";
-    std::cerr << "OIIOFormatPlugin: channelnames: " << spec.channelnames << "\n";
-    std::cerr << "OIIOFormatPlugin: format: " << spec.format.c_str() << "\n";
-    std::cerr << "OIIOFormatPlugin: nchannels: " << spec.nchannels << "\n";
-    std::cerr << "OIIOFormatPlugin: width x height x depth : " << spec.width << " x " << spec.height << " x " << spec.depth << "\n";
-    std::cerr << "OIIOFormatPlugin: full_xyz: " << spec.full_x << " x " << spec.full_y << " x " << spec.full_z << "\n";
-    std::cerr << "OIIOFormatPlugin: full_whd: " << spec.full_width << " x " << spec.full_height << " x " << spec.full_depth << "\n";
-    std::cerr << "OIIOFormatPlugin: tile_whd: " << spec.tile_width << " x " << spec.tile_height << " x " << spec.tile_depth << "\n";
-#endif
-    
-    // get the BitsPerSample
-    int BitsPerSample = gData->input->spec().get_int_attribute("BitsPerSample", -1);
     
     // setup the read format based on ps depth
     switch (gFormatRecord->depth) {
@@ -324,6 +405,16 @@ static void DoReadContinue(void)
         case  8: spec.set_format(OIIO::TypeDesc::UINT8);   break;
         default: spec.set_format(OIIO::TypeDesc::UNKNOWN); break;
     }
+    
+    // Allocate a buffer for the entire image
+    unsigned32 bufferSize = spec.image_bytes();
+    Ptr psbuffer = sPSBuffer->New(&bufferSize, bufferSize);
+    if (psbuffer == NULL)
+    {
+        *gResult = memFullErr;
+        return;
+    }
+    gFormatRecord->data = psbuffer;
     
     // The first plane covered by the buffer specified in data. The start and
     // continue selector handlers should set this field.
@@ -346,65 +437,14 @@ static void DoReadContinue(void)
     // set to 1 for 8bit interleaved data
     gFormatRecord->planeBytes = spec.channel_bytes();
     
-    // Allocate a buffer for the entire image
-    unsigned32 bufferSize = spec.image_bytes();
-    Ptr psbuffer = sPSBuffer->New(&bufferSize, bufferSize);
-    if (psbuffer == NULL)
-    {
-        *gResult = memFullErr;
-        return;
-    }
-    gFormatRecord->data = psbuffer;
-    
-    //////
-    
-    // Read into the buffer
-    float *data = new float [spec.width * spec.height * spec.nchannels];
-    gData->input->read_image(OIIO::TypeDesc::FLOAT, data,
-                             OIIO::AutoStride, OIIO::AutoStride, OIIO::AutoStride,
-                             &PSProgressCallback);
-    
-    //
-    // Start OpenColorIO //
-    
-    // TODO: this is just demo code, just to check we are working
-    //       note. this transform is *NOT* reversable.
-    
-    if (gData->input->spec().format == OIIO::TypeDesc::HALF ||
-        gData->input->spec().format == OIIO::TypeDesc::FLOAT ||
-        BitsPerSample == 10)
-    {
-        
-        OCIO::ConstConfigRcPtr config = OCIO::GetCurrentConfig();
-        
-        const char * device = config->getDefaultDisplayDeviceName();
-        const char * transformName = config->getDefaultDisplayTransformName(device);
-        const char * displayColorSpace = config->getDisplayColorSpaceName(device, transformName);
-        
-        OCIO::DisplayTransformRcPtr trans = OCIO::DisplayTransform::Create();
-        if(BitsPerSample == 10)
-            trans->setInputColorSpaceName(OCIO::ROLE_COMPOSITING_LOG);
-        else
-            trans->setInputColorSpaceName(OCIO::ROLE_SCENE_LINEAR);
-        trans->setDisplayColorSpaceName(displayColorSpace);    
-        
-        OCIO::ConstProcessorRcPtr processor = config->getProcessor(trans);
-        OCIO::PackedImageDesc img(data, spec.width, spec.height, gFormatRecord->planes);
-        processor->apply(img);
-        
-    }
-    
     // update the progress
     gFormatRecord->progressProc(1.1, 1.2);
     
     // Copy the data into the PS buffer
     OIIO::ColorTransfer *tfunc = OIIO::ColorTransfer::create("null");
-    OIIO::convert_types(OIIO::TypeDesc::FLOAT, data, spec.format, psbuffer,
-                        (spec.width * spec.height * spec.nchannels),
+    OIIO::convert_types(OIIO::TypeDesc::FLOAT, gData->oiiodata, spec.format,
+                        psbuffer, (spec.width * spec.height * spec.nchannels),
                         tfunc, spec.alpha_channel, spec.z_channel);
-    
-    // End OpenColorIO //
-    //
     
     // setup theRect
     VRect theRect;
@@ -422,7 +462,6 @@ static void DoReadContinue(void)
     gFormatRecord->progressProc(1.2, 1.2);
     
     // free buffer
-    free(data);
     sPSBuffer->Dispose(&psbuffer);
     gFormatRecord->data = NULL;
     
@@ -445,6 +484,7 @@ static void DoReadFinish(void)
 #ifdef __DEBUG
     std::cout << "OIIOFormatPlugin: DoReadFinish() called" << std::endl;
 #endif
+    free(gData->oiiodata);
     return;
 }
 
@@ -520,11 +560,16 @@ DLLExport MACPASCAL void PluginMain(const int16 selector,
             //// Reading ////
             case formatSelectorReadPrepare:       DoReadPrepare();       break;
             case formatSelectorReadStart:         DoReadStart();         break;
-            //case formatSelectorReadLayerStart:    DoReadLayerStart();    break;
             case formatSelectorReadContinue:      DoReadContinue();      break;
-            //case formatSelectorReadLayerContinue: DoReadLayerContinue(); break;
             case formatSelectorReadFinish:        DoReadFinish();        break;
+            // TODO: Layer Support 
+            //case formatSelectorReadLayerStart:    DoReadLayerStart();    break;
+            //case formatSelectorReadLayerContinue: DoReadLayerContinue(); break;                
             //case formatSelectorReadLayerFinish:   DoReadLayerFinish();   break;
+            
+            //// Writing ////
+            
+                
             //
 #ifdef __DEBUG
             default:
